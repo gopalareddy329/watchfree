@@ -3,10 +3,12 @@ import { FetchMovieData } from './utils/api'
 import {getApiConfig} from './redux/slices/homeSlice'
 import { useDispatch,useSelector } from 'react-redux'
 import Home from './pages/home/Home'
-
+import Footer from './components/footer/Footer'
+import Header from './components/header/Header'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import SearchResult from './pages/searchResult/SearchResult'
 const App = () => {
   const dispatch = useDispatch()
-  const [inc,setinc]=useState(0)
   const [loading,setLoading]=useState(false)
   const [error,setError]=useState(null)
   
@@ -16,25 +18,41 @@ const App = () => {
 
     const fetchData = async () =>{
             setLoading(true)
-            const res = await FetchMovieData(signal);
+            const res = await FetchMovieData(signal,"/src/utils/db.json")
+            .then((data)=>{
+              
+
+              dispatch(getApiConfig(data))
+            });
             if(res?.error){
                   setError(res.error)
             }
-            dispatch(getApiConfig(res))
+            
             setLoading(false)
           }
           fetchData()
           return()=>{
             abortController.abort();
           }
-  },[inc])
-  if(error){return(<div><h1>Something went to wrong</h1></div>)}
+  },[])
+  if(error){return(<div><h1>Something went to wrong h</h1></div>)}
 
   return (
     <div>
       {loading && <div>Loading</div>}
+      <Header />
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<Home />}/>
+              <Route path="/:mediaType/:id" element={<Home />}/>
+              <Route path="/search/:query" element={<SearchResult />}/>
+              <Route path="/explore/:mediaType" element={<Home />}/>
+              <Route path="*" element={<Home />}/>
+          </Routes>
+      </BrowserRouter>
+      <Footer />
       
-        <button onClick={()=>{setinc(inc+1)}}>call</button>
+        
       
       
     </div>
