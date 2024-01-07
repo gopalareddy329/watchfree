@@ -3,12 +3,37 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+}
+.lazy-load-image-background{
+  width: 100%;
+  height: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.gradient{
+  background: linear-gradient(180deg,rgba(4,21,45,0) 0%,#04152d 79.17%);
+}
+
+body{
+  background-color: #04152d;
+}
+
+::-webkit-scrollbar{
+  display: none;
 }
 
 .skeleton {
