@@ -7,8 +7,7 @@ import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 
 const HeroBanner = () => {
   const [backGround,setBackGround] = useState("")
-  const [query,setQuery] = useState("");
-  const navigate = useNavigate();
+  
   const {data,loading,error} = useFetch("/src/utils/db.json")
   useEffect(()=>{
     const url = {
@@ -19,11 +18,7 @@ const HeroBanner = () => {
     const bg = url.backdrop
     setBackGround(bg)
   },[data])
-  const serachQueryHandler = (e) => {
-    if(e.key ==  'Enter' && query.length > 0){
-      navigate(`/search/${query}`);
-    }
-  };
+  
   return (
     <div className='w-full h-[450px]  flex items-center justify-center relative md:h-screen'>
         {!loading && 
@@ -45,17 +40,7 @@ const HeroBanner = () => {
                 <span className='text-[50px] font-[700px]  md:mb-0 md:text-[90px] Salsa'><b>Genee</b></span>
                 
 
-                {/* <div className='flex items-center justify-center w-[100%] '>
-                  <input
-                  style={{"width":''}}
-                  className='w-[calc(100%-100px)] text-black h-[50px] bg-white outline-none rounded-l-[30px]  py-0 px-[15px] text-[14px]  md:h-[60px] md:text-[20px] md:py-0 md:px-[30px] md:w-[calc(100%-150px)]'
-                    type='text'
-                    placeholder='Search..'
-                    onChange={(e)=> setQuery(e.target.value)}
-                    onKeyUp={serachQueryHandler}
-                  />
-                  <button className='w-[100px] h-[50px]  text-white outline-none border-0 rounded-r-[30px]  text-[16px] cursor-pointer md:w-[150px] md:h-[60px] md:text-[18px]' style={{backgroundImage: "linear-gradient(98.37deg, #f89e00 0.99%, #da2f68 100%)" }} >Search</button>
-                </div> */}
+                
               
             </div>
         </ContentWrapper>
