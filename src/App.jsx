@@ -7,6 +7,8 @@ import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import SearchResult from './pages/searchResult/SearchResult'
+import Explore from './pages/explore/Explore'
+
 const App = () => {
   const dispatch = useDispatch()
   const [loading,setLoading]=useState(false)
@@ -40,13 +42,15 @@ const App = () => {
   return (
     <div>
       {loading && <div>Loading</div>}
-      <Header />
+      
       <BrowserRouter>
+          <Header />
+          
           <Routes>
               <Route path="/" element={<Home />}/>
               <Route path="/:mediaType/:id" element={<Home />}/>
               <Route path="/search/:query" element={<SearchResult />}/>
-              <Route path="/explore/:mediaType" element={<Home />}/>
+              <Route path="/explore/:mediaType" element={<Explore />}/>
               <Route path="*" element={<Home />}/>
           </Routes>
       </BrowserRouter>

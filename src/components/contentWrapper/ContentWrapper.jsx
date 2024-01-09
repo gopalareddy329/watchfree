@@ -2,8 +2,8 @@ import React from "react";
 
 
 
-const ContentWrapper = ({ children }) => {
-    return <div className="w-full max-w-[1200px] my-0 mx-[20px] py-0 px-[20px]">{children}</div>;
+const ContentWrapper = ({ children,classname }) => {
+    return <div className={`w-full max-w-[1600px] h-full my-0 mx-[20px] py-0 px-[20px] ${classname}`}>{children}</div>;
 };
 
 export default ContentWrapper;

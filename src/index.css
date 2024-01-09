@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Salsa&family=Whisper&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.Salsa{
+  font-family: 'Salsa', cursive;
+ 
+}
+
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Lemon', serif;
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
@@ -25,13 +33,23 @@
 }
 
 .gradient{
-  background: linear-gradient(180deg,rgba(4,21,45,0) 0%,#04152d 79.17%);
+  background: linear-gradient(to top, #0000003f, transparent, black 140%),linear-gradient(to right, #0000003f, transparent, black 140%);
+}
+.gradient::after{
+  background: ;
 }
 
 body{
-  background-color: #04152d;
+  background-color: black;
+}
+.hover{
+  color: white;
 }
 
+.hover:hover{
+
+  color:#da2f68;
+}
 ::-webkit-scrollbar{
   display: none;
 }
