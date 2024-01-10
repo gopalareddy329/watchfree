@@ -11,8 +11,9 @@
 }
 
 :root {
+  
   font-family: 'Lemon', serif;
-  font-size: 16px;
+  
   line-height: 1;
   font-weight: 500;
   font-synthesis: none;
@@ -35,12 +36,10 @@
 .gradient{
   background: linear-gradient(to top, #0000003f, transparent, black 140%),linear-gradient(to right, #0000003f, transparent, black 140%);
 }
-.gradient::after{
-  background: ;
-}
 
 body{
   background-color: black;
+  
 }
 .hover{
   color: white;
