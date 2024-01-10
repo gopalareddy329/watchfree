@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 import ContentWrapper from '../contentWrapper/ContentWrapper'
 import Img from '../lazyLoadImage/Img'
-import './style.css'
 import CircleRating from '../rating/Rating'
 
 const CardSlider = ({data , loading}) => {
