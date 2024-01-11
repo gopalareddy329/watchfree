@@ -10,7 +10,7 @@ const Img = ({ src, classname, noImg }) => {
            
             effect="blur"
             src={src}
-            onError={(e)=>{e.target.alt=noImg}}
+            onError={(e)=>{e.target.src=noImg}}
             
         />
     );

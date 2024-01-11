@@ -6,8 +6,8 @@ const TopAiring = () => {
     const {data,loading}=useFetch("/src/utils/db.json")
     console.log((data))
   return (
-    <div className='bg-[#d5e9f9] relative my-[70px] h-[500px] text-black'>
-        <ContentWrapper className="flex justify-between items-center mb-20px max-w-[1200px]">
+    <div className='mt-[50px] relative  h-[500px]   text-white'>
+        <ContentWrapper className="flex justify-between items-center mb-[30px] max-w-[1200px]">
             <span className='text-[24px]  font-normal'>Top Airing</span>
         </ContentWrapper>
         <CardSlider  data={data?.movies} loading={loading}/>
