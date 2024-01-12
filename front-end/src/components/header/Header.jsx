@@ -4,7 +4,7 @@ import {SlMenu} from "react-icons/sl"
 import {VscChromeClose} from "react-icons/vsc"
 import ContantWrapper from "../contentWrapper/ContentWrapper"
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-
+import { useDispatch } from 'react-redux'
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const Header = () => {
   const [mobileMenu,setMobileMenu] = useState(false)
   const [query,setQuery] = useState("")
   const [showSearch,setShowSearch] = useState("");
+
   
   const serachQueryHandler = (e) => {
     if(e.key ==  'Enter' && query.length > 0){
@@ -87,7 +88,7 @@ const Header = () => {
                       
                       <ul className={`flex gap-10 top-5 p-5 max-md:absolute md:justify-between   max-md:flex-col max-md:justify-center max-md:mt-[5%] ${mobileMenu ? "block ":"max-md:hidden"}`}>
                         <li className="hover"><Link  to="explore/movies"  onClick={()=>{setMobileMenu(false)}}>Movies</Link></li>
-                        <li className="hover"><Link  to="explore/shows" onClick={()=>{setMobileMenu(false)}}>Shows</Link></li>
+                        <li className="hover"><Link  to="explore/series" onClick={()=>{setMobileMenu(false)}}>Series</Link></li>
                         <li className="text-[20px] max-md:hidden "><HiOutlineSearch onClick={openSearch}/></li>
                       </ul>
                       

@@ -8,11 +8,11 @@ import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 const HeroBanner = () => {
   const [backGround,setBackGround] = useState("")
   
-  const {data,loading,error} = useFetch("/src/utils/db.json")
+  const {data,loading,error} = useFetch("/getherobanner/")
   
   useEffect(()=>{
     const url = {
-      backdrop:"https://images8.alphacoders.com/122/1227604.jpg",
+      backdrop:data?.backdrop,
     };
     const bg = url.backdrop
     setBackGround(bg)
@@ -24,7 +24,7 @@ const HeroBanner = () => {
           
               <div className='w-full h-full absolute flex justify-center   top-0 left-0 opacity-[0.5]  overflow-hidden'> 
                   <span className='w-full h-full '>
-                      <Img src={backGround} classname="w-[100%]  h-[100%] block  object-cover object-center"/>
+                      <Img src={backGround}  classname="w-[100%]  h-[100%] block  object-cover object-center"/>
                       
                   </span>
                   <div className='absolute gradient top-0 left-0 w-full  h-[450px] z-0 md:h-full' style={{"zIndex":0}}/>
@@ -36,7 +36,7 @@ const HeroBanner = () => {
         <div className='w-full  gradient absolute bottom-0 left-0' />
         <ContentWrapper classname="h-full">
             <div className='flex h-[90%] flex-col justify-end   items-center   text-white text-center relative  mx-auto my-0'>
-                <span className='text-[50px] font-[700px]  md:mb-0 md:text-[90px] Salsa'><b>Genee</b></span>
+                <span className='text-[50px] font-[700px]  md:mb-0 md:text-[90px] Salsa'><b>{data?.title}</b></span>
             </div>
         </ContentWrapper>
     </div>

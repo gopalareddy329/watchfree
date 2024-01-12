@@ -1,5 +1,7 @@
 import { useState,useEffect } from "react"
 import {FetchMovieData} from '../utils/api'
+const baseUrl = 'http://127.0.0.1:8000/api'
+
 
 const useFetch  = (url) => {
   const [data,setData] = useState(null)
@@ -7,19 +9,23 @@ const useFetch  = (url) => {
   const [error,setError]=useState(null)
   
   useEffect(()=>{
+    setLoading(true)
     const abortController = new AbortController();
     const signal = abortController.signal;
 
     const fetchData = async () =>{
-            setLoading(true)
-            const data = await FetchMovieData(signal,url).then((res)=>{
+            
+          
+            const data = await FetchMovieData(signal,`${baseUrl+url}`).then((res)=>{
                 setData(res)
+                setLoading(false)
             })
             if(data?.error){
                   setError(data.error)
+                  setLoading(false)
             }
             
-            setLoading(false)
+            
           }
           fetchData()
           return()=>{

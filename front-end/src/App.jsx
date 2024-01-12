@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { FetchMovieData } from './utils/api'
-import {getApiConfig} from './redux/slices/homeSlice'
-import { useDispatch,useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { getGenres} from './redux/slices/homeSlice'
+import { useDispatch } from 'react-redux'
 import Home from './pages/home/Home'
 import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import SearchResult from './pages/searchResult/SearchResult'
 import Explore from './pages/explore/Explore'
+import useFetch from './hooks/useFetch'
+
 
 const App = () => {
   const dispatch = useDispatch()
-  const [loading,setLoading]=useState(false)
-  const [error,setError]=useState(null)
   
+
+  
+  const {data,error,loading} = useFetch("/getgenres/")
   useEffect(()=>{
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+      var all = {}
+      data?.map((item)=>{
+        return all[item.id] = item
+      })
+      
+      dispatch(getGenres(all))
 
-    const fetchData = async () =>{
-            setLoading(true)
-            const res = await FetchMovieData(signal,"/src/utils/db.json")
-            .then((data)=>{
-              
+  },[data])
 
-              dispatch(getApiConfig(data))
-            });
-            if(res?.error){
-                  setError(res.error)
-            }
-            
-            setLoading(false)
-          }
-          fetchData()
-          return()=>{
-            abortController.abort();
-          }
-  },[])
-  if(error){return(<div><h1>Something went to wrong h</h1></div>)}
+
+  if(error){return(<div><h1>Something went to wrong </h1></div>)}
 
   return (
     <div>

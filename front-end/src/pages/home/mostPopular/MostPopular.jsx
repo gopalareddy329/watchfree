@@ -4,9 +4,9 @@ import CardSlider from '../../../components/cardSlider/CardSlider'
 import useFetch from '../../../hooks/useFetch'
 import {useSelector} from 'react-redux'
 
-const TopAiring = () => {
+const MostPopular = () => {
     const {type} = useSelector((state)=>(state.home))
-    const {data,loading}=useFetch(`/${type === "movies" ? "getmovies":"getseries"}/TopAiring`)
+    const {data,loading}=useFetch(`/${type === "movies" ? "getmovies":"getseries"}/popular`)
     useEffect(()=>{
       
     },[])
@@ -15,7 +15,7 @@ const TopAiring = () => {
   return (
     <div className=' relative    text-white'>
         <ContentWrapper classname="mx-auto">
-            <span className='text-[24px]  mx-auto w-full font-normal'>Top Airing</span>
+            <span className='text-[24px]  font-normal'>MostPopular</span>
         </ContentWrapper>
         <CardSlider  data={data} loading={loading}/>
 
@@ -23,4 +23,4 @@ const TopAiring = () => {
   )
 }
 
-export default TopAiring
+export default MostPopular
