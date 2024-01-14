@@ -3,18 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from '../../../hooks/useFetch'
 import Img from '../../../components/lazyLoadImage/Img'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
+import { useSelector } from 'react-redux';
 
 
 const HeroBanner = () => {
   const [backGround,setBackGround] = useState("")
+  const {type}=useSelector((state)=>(state.home))
   
-  const {data,loading,error} = useFetch("/getherobanner/")
+  const {data,loading,error} = useFetch(`/getherobanner/`)
   
   useEffect(()=>{
     const url = {
       backdrop:data?.backdrop,
     };
     const bg = url.backdrop
+    
     setBackGround(bg)
   },[data])
   

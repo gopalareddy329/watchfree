@@ -1,4 +1,4 @@
-import React, { useEffect, useRef,useState } from 'react'
+import React, {  useRef } from 'react'
 import {BsFillArrowLeftCircleFill,BsFillArrowRightCircleFill} from "react-icons/bs"
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -10,20 +10,22 @@ import Genres from '../genres/Genres'
 
 
 const CardSlider = ({data,loading }) => {
-    const slideControl = useRef()
-    const {url} =useSelector((state)=> state.home)
+    const slideControl = useRef(null)
     const navigate = useNavigate();
 
     
     const navigation = (e) =>{
-        const scroll = slideControl.current
+        const container = slideControl.current
 
-        const scrollAmount = e === "left" ? scroll.scrollLeft - (scroll.offsetWidth + 20):scroll.scrollLeft + (scroll.offsetWidth + 20)
-        
-        scroll.scrollTo({
+        const scrollAmount = e === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+        console.log(scrollAmount)
+        container.scrollTo({
             left:scrollAmount,
             behavior:"smooth"
         })
+        
     }
     const skItem = () =>{
         return (
@@ -39,13 +41,13 @@ const CardSlider = ({data,loading }) => {
     }
 
   return (
-    <div ref={slideControl} className='mb-10 pt-10'>
+    <div className='mb-10 pt-10'>
         <ContentWrapper classname="relative mx-auto">
-            <BsFillArrowLeftCircleFill className='text-[30px] text-[#555563] absolute top-[44%] left-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' onClick={()=>{navigation("left")}}/>
-            <BsFillArrowRightCircleFill className='text-[30px] text-[#555563] absolute top-[44%] right-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' onClick={()=>{navigation("right")}}/>
+            <BsFillArrowLeftCircleFill onClick={()=>{navigation("left")}} className='text-[30px] text-[#555563] absolute top-[44%] left-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' />
+            <BsFillArrowRightCircleFill onClick={()=>{navigation("right")}} className='text-[30px] text-[#555563] absolute top-[44%] right-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' />
             {loading ? 
             (
-                <div className='flex gap-[10px] overflow-y-hidden mr-[-20px] ml-[-20px] py-[20px] md:gap-[20px] md:overflow-hidden md:m-0 md:p-0 '>
+                <div className='flex gap-[10px] overflow-y-hidden mr-[-20px] ml-[-20px] pl-[20px] pr-[20px] md:gap-[20px] md:overflow-hidden md:m-0 md:p-0 '>
                        
                         {skItem()}
                         {skItem()}
@@ -56,7 +58,7 @@ const CardSlider = ({data,loading }) => {
             )
             :
             (
-                <div ref={slideControl}  className='flex gap-[10px] lg:p-5 overflow-y-hidden mr-[-20px] ml-[-20px] px-[20px] md:gap-[20px] md:overflow-hidden   md:m-0 md:p-0'>
+                <div ref={slideControl}  className='flex  gap-[10px] overflow-y-hidden mr-[-20px] ml-[-20px] pl-[20px] pr-[20px] md:gap-[20px] md:overflow-hidden   md:m-0 md:p-0'>
                     {data?.map((item)=>{
                         const imgUrl = item.poster 
                         const error ="https://user-images.githubusercontent.com/237508/90251955-8b9ace00-de36-11ea-8670-5dc31fc4ba61.png"

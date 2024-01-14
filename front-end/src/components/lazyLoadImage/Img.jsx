@@ -29,6 +29,7 @@ const Img = ({ src, classname }) => {
             alt=""
             onLoad={handleImageLoad}
             effect="blur"
+           
             src={src}
             
         /> 

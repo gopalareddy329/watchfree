@@ -12,10 +12,11 @@ import useFetch from './hooks/useFetch'
 
 const App = () => {
   const dispatch = useDispatch()
+
   
 
   
-  const {data,error,loading} = useFetch("/getgenres/")
+  const {data,error,loading} = useFetch(`/getgenres/`)
   useEffect(()=>{
       var all = {}
       data?.map((item)=>{

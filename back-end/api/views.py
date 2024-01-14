@@ -9,11 +9,13 @@ from .models import MoviesList,HeroBanner,Genres
 
 
 @api_view(['GET'])
-def GetMoviesList(request,order):
+def GetDataList(request,type,order):
     setOrder=None
     if order:
         if order=="TopAiring":
             setOrder="rating"
+        if order=="popular":
+            setOrder="popularity"
 
     data = MoviesList.objects.all()[:20]
 
@@ -29,15 +31,15 @@ def GetMoviesList(request,order):
 
 
 @api_view(["GET"])
-def GetHeroBanner(request):
-    number=random.randint(1,5)
-    data=HeroBanner.objects.get(id=number)
+def GetHeroBanner(request,type):
+    number=random.randint(0,4)
+    data=HeroBanner.objects.all()[number]
     serial=HeroBannerSerializer(data,many=False)
     return Response(serial.data)
 
 
 @api_view(["GET"])
-def GetGenres(request):
+def GetGenres(request,type):
     data=Genres.objects.all()
     serial=GenresSeriallizer(data,many=True)
     return Response(serial.data)

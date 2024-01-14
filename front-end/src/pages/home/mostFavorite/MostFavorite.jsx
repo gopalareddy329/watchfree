@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 import CardSlider from '../../../components/cardSlider/CardSlider'
 import useFetch from '../../../hooks/useFetch'
-import {useSelector} from 'react-redux'
+
 
 const MostFavorite = () => {
-    const {type} = useSelector((state)=>(state.home))
-    const {data,loading}=useFetch(`/${type === "movies" ? "getmovies":"getseries"}/favorite`)
+    const {data,loading}=useFetch(`/getdata/favorite/`)
     useEffect(()=>{
       
     },[])
@@ -14,9 +13,10 @@ const MostFavorite = () => {
     
   return (
     <div className=' relative  text-white'>
-        <ContentWrapper classname="mx-auto">
+        <ContentWrapper>
             <span className='text-[24px]  font-normal'>Mostfavorite</span>
         </ContentWrapper>
+        
         <CardSlider  data={data} loading={loading}/>
 
     </div>

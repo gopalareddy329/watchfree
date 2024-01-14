@@ -7,7 +7,7 @@ export const homeSlice = createSlice({
   initialState:{
     url:{},
     genres:{},
-    type:""
+    type:"movie"
 
   },
   reducers: {

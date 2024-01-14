@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 import CardSlider from '../../../components/cardSlider/CardSlider'
 import useFetch from '../../../hooks/useFetch'
-import {useSelector} from 'react-redux'
+
 
 const MostPopular = () => {
-    const {type} = useSelector((state)=>(state.home))
-    const {data,loading}=useFetch(`/${type === "movies" ? "getmovies":"getseries"}/popular`)
+    const {data,loading}=useFetch(`/getdata/popular/`)
     useEffect(()=>{
       
     },[])
@@ -14,7 +13,7 @@ const MostPopular = () => {
     
   return (
     <div className=' relative    text-white'>
-        <ContentWrapper classname="mx-auto">
+        <ContentWrapper>
             <span className='text-[24px]  font-normal'>MostPopular</span>
         </ContentWrapper>
         <CardSlider  data={data} loading={loading}/>
