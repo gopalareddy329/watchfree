@@ -2,13 +2,17 @@ import React, { useEffect } from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 import CardSlider from '../../../components/cardSlider/CardSlider'
 import useFetch from '../../../hooks/useFetch'
+import { useSelector } from 'react-redux'
 
 
 const MostFavorite = () => {
-    const {data,loading}=useFetch(`/getdata/favorite/`)
-    useEffect(()=>{
-      
-    },[])
+    const {type} = useSelector((state)=>(state.home))
+    const {data,loading,error}=useFetch(`/getdata/${type}/favorite/`)
+    
+    if(error){
+      console.log("error")
+      return(<div>error</div>)
+    }
     
     
   return (

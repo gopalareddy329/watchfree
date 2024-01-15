@@ -1,4 +1,5 @@
 import random
+from django.http import JsonResponse
 from django.shortcuts import render
 from .serializer import MovieItemSerializer,HeroBannerSerializer,GenresSeriallizer
 from rest_framework.decorators import api_view
@@ -14,20 +15,56 @@ def GetDataList(request,type,order):
     if order:
         if order=="TopAiring":
             setOrder="rating"
-        if order=="popular":
+        elif order=="popular":
             setOrder="popularity"
+        elif order=="favorite":
+            setOrder="popularity"
+        else:
+            setOrder=order
 
-    data = MoviesList.objects.all()[:20]
+    data = None
 
+    if type=="movies":
+        data=MoviesList.objects.all()[:20]
+        
+    elif type=="series":
+        data=MoviesList.objects.all()[5:10]
+        
+    else:
+        return Response("Type error",status= 400)
+    
     if setOrder:
         try:
             data=sorted(data,key=lambda x: getattr(x,str(setOrder)), reverse=True)
         except:
-            pass
+            return Response("invalid column name",status= 400)
     
+    serial=None
+    if type=="movies":
+        serial=MovieItemSerializer(data,many=True)
+        
+    elif type=="series":
+        serial=MovieItemSerializer(data,many=True)
     
-    serial=MovieItemSerializer(data,many=True)
     return Response(serial.data)
+
+
+@api_view(['GET'])
+def GetDetails(request,type,id):
+    data=None
+    serial=None
+    if type == "movies":
+        data = MoviesList.objects.get(id=id)
+        
+        serial=MovieItemSerializer(data,many=False)
+        serial_2=HeroBannerSerializer(data.herobanner_set.first(),many=False)
+        
+    else:
+        return Response("Type Error",status=400)
+    
+    
+    return Response({"moviedata":serial.data,
+                     "herobanner":serial_2.data["backdrop"]})
 
 
 @api_view(["GET"])

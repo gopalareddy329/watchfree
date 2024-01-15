@@ -10,7 +10,10 @@ const HeroBanner = () => {
   const [backGround,setBackGround] = useState("")
   const {type}=useSelector((state)=>(state.home))
   
-  const {data,loading,error} = useFetch(`/getherobanner/`)
+  const {data,loading,error} = useFetch(`/getherobanner/${type}`)
+  if(error){
+    return <div>error</div>
+  }
   
   useEffect(()=>{
     const url = {

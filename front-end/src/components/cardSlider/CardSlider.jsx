@@ -10,6 +10,13 @@ import Genres from '../genres/Genres'
 
 
 const CardSlider = ({data,loading }) => {
+    
+    if (!Array.isArray(data)) {
+        console.log(data)
+            return (
+                <div className='w-full text-center h-[150px] text-red-500'><strong>Somthing went to wrong</strong></div>
+            );
+      }
     const slideControl = useRef(null)
     const navigate = useNavigate();
 
@@ -45,7 +52,7 @@ const CardSlider = ({data,loading }) => {
         <ContentWrapper classname="relative mx-auto">
             <BsFillArrowLeftCircleFill onClick={()=>{navigation("left")}} className='text-[30px] text-[#555563] absolute top-[44%] left-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' />
             <BsFillArrowRightCircleFill onClick={()=>{navigation("right")}} className='text-[30px] text-[#555563] absolute top-[44%] right-[30px] transform translate-y-[-50%] cursor-pointer opacity-[0.8] z-10 hidden md:block hover:opacity-[0.8] ' />
-            {loading ? 
+            {loading   ? 
             (
                 <div className='flex gap-[10px] overflow-y-hidden mr-[-20px] ml-[-20px] pl-[20px] pr-[20px] md:gap-[20px] md:overflow-hidden md:m-0 md:p-0 '>
                        

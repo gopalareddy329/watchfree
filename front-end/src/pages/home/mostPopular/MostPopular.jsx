@@ -2,14 +2,13 @@ import React, { useEffect } from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 import CardSlider from '../../../components/cardSlider/CardSlider'
 import useFetch from '../../../hooks/useFetch'
+import { useSelector } from 'react-redux'
 
 
 const MostPopular = () => {
-    const {data,loading}=useFetch(`/getdata/popular/`)
-    useEffect(()=>{
-      
-    },[])
-    
+  const {type} = useSelector((state)=>(state.home))
+    const {data,loading,error}=useFetch(`/getdata/${type}/popular/`)
+   
     
   return (
     <div className=' relative    text-white'>

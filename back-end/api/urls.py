@@ -3,7 +3,8 @@ from . import views
 
 
 urlpatterns = [
-    path('getdata/<str:order>/<str:type>/',views.GetDataList),
+    path('getdata/<str:type>/<str:order>/',views.GetDataList),
+    path('getdetails/<str:type>/<str:id>/',views.GetDetails),
     path('getherobanner/<str:type>/',views.GetHeroBanner),
     path('getgenres/<str:type>/',views.GetGenres),
 ]
