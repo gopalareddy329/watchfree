@@ -10,14 +10,16 @@ import useFetch from "../../../hooks/useFetch";
 import Genres from "../../../components/genres/Genres";
 import CircleRating from "../../../components/rating/Rating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
+import {PlayIcon} from '../PlayButton.jsx' 
 
 
 const DetailsBanner = ({video, crew}) => {
     const {mediaType,id}= useParams()
     const {data,loading} = useFetch(`/getdetails/${mediaType}/${id}/`)
+    const {languages} = useSelector((state)=>(state.home))
 
   return (
-    <div className="w-full bg-[#041226]  pt-[100px] mb-[50px] md:mb-0 md:pt-[120px] md:min-h-[700px]">
+    <div className="w-full h-full bg-[#0c1b31]  py-[100px]    md:pt-[120px] md:min-h-[700px]">
         {!loading ? (
             <>
                 {!!data && (
@@ -26,7 +28,7 @@ const DetailsBanner = ({video, crew}) => {
                               <Img classname="w-full h-full object-cover object-center " src={`${data.herobanner !=="" ? (data.herobanner) : (data.moviedata.poster)}`}/>
                             </div>
 
-                            <div className="w-full h-[250px] absolute bottom-0 left-0" style={{ background: "linear-gradient(180deg, rgba(4, 21, 45, 0) 0%, #04152d 79.17%)" }}></div>
+                            <div className="w-full h-[250px] absolute bottom-0 left-0" style={{ background: "linear-gradient(180deg, rgba(4, 21, 45, 0) 0%, #0c1b31 79.17%)" }}></div>
 
                             <ContentWrapper classname="mx-auto">
                                      <div className="flex relative flex-col gap-[25px] md:gap-[50px] md:flex-row">
@@ -34,21 +36,84 @@ const DetailsBanner = ({video, crew}) => {
                                             <Img classname="w-full block rounded-[12px] md:max-w-[350px] aspect-[139/207] h-full    object-fill object-center"  src={data?.moviedata?.poster}/>
                                                 
                                         </div>
-                                        <div className="right">
+                                        <div className="text-white">
+                                            <div className="text-[28px] leading-[40px] md:text-[34px] md:leading-[44px]">
+                                                {`${data?.moviedata?.title} (${dayjs(data?.moviedata?.date).format("YYYY")})`}
+                                            </div>
+                                            <div className="text-[16px] Salsa leading-[24px] mb-[15px] italic opacity-[0.5] md:text-[20px] md:leading-[28px]">
+                                                {data?.moviedata?.tagline}
+                                            </div>
+                                            <Genres data={data?.moviedata?.genres}/>
+                                            
+                                            <div className="row ">
+                                                <div className="max-w-[60px]  p-2 md:max-w-[70px] ">
+                                                    <CircleRating  rating={data?.moviedata?.rating}/>
+                                                </div>
 
+                                                <div className="playbtn ">
+                                                            <PlayIcon />
+                                                            <span className="text">Watch Trailer</span>
+                                                            
+                                                </div>
+                                                <div className="flex Salsa py-5  gap-5 ">
+                                                            {data?.moviedata?.languages?.map((item)=>{
+                                                                return (<div className="opacity-[0.5]" key={item}>{languages[item]?.name}</div>)
+                                                            })}
+                                                </div>
+
+
+                                                
+
+                                                <div className="mb-[25px] ">
+                                                        <div className="text-[24px] mb-[10px]">
+                                                            Overview
+                                                        </div>
+                                                        <div className="leading-[24px] Salsa text-[18px] md:pr-">
+                                                            {data?.moviedata?.overview}
+                                                        </div>
+                                                </div>
+
+                                                <div className="flex items-center border-b-[1px] border-solid border-[rgba(255,255,255,0.1)] py-[15px]  ">
+
+                                                    <div className="mr-[10px] flex items-center flex-wrap">
+                                                        <h2 className="font-[600] opacity-1">Status:</h2>
+                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{data?.moviedata?.status}</p>
+                                                    </div>
+
+                                                    <div className="mr-[10px] flex items-center flex-wrap">
+                                                        <h2 className="font-[600] opacity-1">Release Date:</h2>
+                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{dayjs(data?.moviedata?.date).format("MMM D, YYYY")}</p>
+                                                    </div>
+
+                                                    <div className="mr-[10px] flex items-center flex-wrap">
+                                                        <h2 className="font-[600] opacity-1">Duration:</h2>
+                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{data?.moviedata?.duration}</p>
+                                                    </div>
+                                                    
+
+                                                </div>
+                                                
+                                            </div>
+
+                                            
+                
                                         </div>
+                                        
                                      </div>
+                                     
                                 </ContentWrapper>
+                                
                             
                     </React.Fragment>
+                   
                 )}
             </>
         ):(
-            <div className="flex relative flex-col gap-[25px] md:gap-[50px] md:flex-row">
-                    <ContentWrapper classname="flex gap-[50px]">
+            <div className="flex relative  flex-col gap-[25px] md:gap-[50px] md:flex-row">
+                    <ContentWrapper classname="flex  gap-[50px]">
                         <div className="flex-shrink-0 w-full block rounded-[12px] aspect-[1/1.5] md:max-w-[350px] skeleton "></div>
-                        <div className="w-full">
-                            <div className="row skeleton"></div>
+                        <div className="w-full ">
+                            <div className="row  skeleton"></div>
                             <div className="row skeleton"></div>
                             <div className="row skeleton"></div>
                             <div className="row skeleton"></div>
@@ -59,7 +124,10 @@ const DetailsBanner = ({video, crew}) => {
                     </ContentWrapper>
             </div>
         )}
+        
+        
     </div>
+    
   )
 }
 

@@ -7,4 +7,5 @@ urlpatterns = [
     path('getdetails/<str:type>/<str:id>/',views.GetDetails),
     path('getherobanner/<str:type>/',views.GetHeroBanner),
     path('getgenres/<str:type>/',views.GetGenres),
+    path('getlanguages/',views.GetLanguages),
 ]

@@ -8,7 +8,7 @@ import './style.css'
 const Footer = () => {
     const menuItemClass=""
     return (
-        <footer className="bg-[#020c1b] flex  py-[50px] w-full text-white relative ">
+        <footer className="bg-[#020c1b] flex  py-[50px] bottom-0 w-full text-white relative ">
             <ContentWrapper classname="flex w-full mx-auto items-center flex-col">
                 <ul className="flex list-none items-center justify-center gap-[15px] mb-[20px] md:mb-[30px] md:gap-[30px] ">
                     

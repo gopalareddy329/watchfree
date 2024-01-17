@@ -74,7 +74,7 @@ const Header = () => {
   }
 
   return (
-    <header className={`fixed text-white transform  transition-all ease-in-out duration-500  w-full h-[60px] z-1  flex justify-center  items-center  z-10  ${mobileMenu ? "max-md:bg-[#020c1b]":""} ${show}`}>
+    <header className={`fixed text-white transform  transition-all ease-in-out duration-500  w-full h-[60px] z-50  flex justify-center  items-center    ${mobileMenu ? "max-md:bg-[#020c1b]":""} ${show}`}>
         
             
               <ContantWrapper>

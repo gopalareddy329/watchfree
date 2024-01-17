@@ -12,7 +12,7 @@ const MostPopular = () => {
     
   return (
     <div className=' relative    text-white'>
-        <ContentWrapper>
+        <ContentWrapper classname="flex mx-auto">
             <span className='text-[24px]  font-normal'>MostPopular</span>
         </ContentWrapper>
         <CardSlider  data={data} loading={loading}/>

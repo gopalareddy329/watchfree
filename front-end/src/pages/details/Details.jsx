@@ -8,8 +8,9 @@ const Details = () => {
     const {data,loading} = useFetch(`/getdetails/${mediaType}/${id}/`)
     console.log(data)
   return (
-    <div>
+    <div className=' '>
         <DetailsBanner />
+        <div className='max-md:min-h-[500px] max-lg:min-h-[300px]'/> 
     </div>
   )
 }

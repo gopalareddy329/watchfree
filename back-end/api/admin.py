@@ -5,3 +5,4 @@ from . import models
 admin.site.register(models.MoviesList)
 admin.site.register(models.HeroBanner)
 admin.site.register(models.Genres)
+admin.site.register(models.Languages)

@@ -36,8 +36,8 @@ const CardSlider = ({data,loading }) => {
     }
     const skItem = () =>{
         return (
-            <div className='w-[160px] md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)] flex-shrink-0'>
-                <div className='rounded-[12px] wfull aspect-[1/1.15] mb-[30px] skeleton'>
+            <div className='w-[125px]   cursor-pointer md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)] flex-shrink-0 '>
+                <div className='relative  w-full   rounded-[12px]  aspect-[1/1.5] bg-cover bg-center mb-[30px] flex flex-col items-end justify-between  skeleton'>
                     <div className='flex flex-col'>
                         <div className='w-full h-[20px] mb-[10px] skeleton'></div>
                         <div className='w-[75%] h-[20px] skeleton'></div>
@@ -68,20 +68,20 @@ const CardSlider = ({data,loading }) => {
                 <div ref={slideControl}  className='flex  gap-[10px] overflow-y-hidden mr-[-20px] ml-[-20px] pl-[20px] pr-[20px] md:gap-[20px] md:overflow-hidden   md:m-0 md:p-0'>
                     {data?.map((item)=>{
                         const imgUrl = item.poster 
-                        const error ="https://user-images.githubusercontent.com/237508/90251955-8b9ace00-de36-11ea-8670-5dc31fc4ba61.png"
+                        
                         return(
                             <div key={item.id} onClick={()=>navigate(`/${item.mediatype}/${item.id}`)}  className='w-[125px]   cursor-pointer md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)] flex-shrink-0 '>
                                 <div className='relative  w-full   rounded-[12px]  aspect-[1/1.5] bg-cover bg-center mb-[30px] flex flex-col items-end justify-between ' style={{"boxShadow":"0 4px 8px rgba(0,0,0,0.1)"}}>
                                     
                                         <div className='  w-full h-full rounded-[12px] overflow-hidden'>
-                                            <Img  src={imgUrl} noImg={error}  classname="w-full h-full   object-cover object-center"/>
+                                            <Img  src={imgUrl}   classname="w-full h-full   object-cover object-center"/>
                                             
                                         </div>
                                         <div className=' flex flex-col Salsa   w-full p-[10px]'>
-                                                <span className='text-[12px]  md:text-[18px]'>{item.title}</span>
+                                                <span className='text-[12px]  md:text-[18px] whitespace-nowrap text-ellipsis overflow-hidden max-w-full'>{item.title}</span>
 
                                                 <span className='mt-2 text-[12px] md:text-[16px] opacity-[0.5] mb-2'>{dayjs(item.date).format("MMM D, YYYY")}</span>
-                                                <span className='max-md:hidden relative flex flex-wrap justify-end'><Genres data={item.genres}/></span>
+                                                <span className='max-md:hidden relative flex flex-wrap justify-end'><Genres data={item.genres.slice(0,2)}/></span>
                                         </div>
                                        
                                         <span className='absolute right-5 top-3 h-[30px] w-[30px]'><CircleRating rating={item.rating}/></span> 

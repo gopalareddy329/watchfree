@@ -5,14 +5,14 @@ import { createSlice } from '@reduxjs/toolkit'
 export const homeSlice = createSlice({
   name: 'home',
   initialState:{
-    url:{},
+    languages:{},
     genres:{},
     type:"movies"
 
   },
   reducers: {
-    getApiConfig:(state,action) =>{
-      state.url = action.payload
+    getLanguages:(state,action) =>{
+      state.languages = action.payload;
     },
     getGenres:(state,action) => {
       state.genres = action.payload
@@ -23,6 +23,6 @@ export const homeSlice = createSlice({
   },
 })
 
-export const { getApiConfig, getGenres,setType } = homeSlice.actions
+export const { getLanguages, getGenres,setType } = homeSlice.actions
 
 export default homeSlice.reducer
