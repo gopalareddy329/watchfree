@@ -16,6 +16,7 @@ class Languages(models.Model):
 
 class MoviesList(models.Model):
     title=models.CharField(max_length=40)
+    youtubeID=models.CharField(max_length=30,null=True,blank=True)
     date= models.DateField()
     poster=models.TextField()
     tagline=models.CharField(max_length=40,blank=True,null=True)

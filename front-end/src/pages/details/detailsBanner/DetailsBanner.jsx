@@ -11,15 +11,18 @@ import Genres from "../../../components/genres/Genres";
 import CircleRating from "../../../components/rating/Rating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
 import {PlayIcon} from '../PlayButton.jsx' 
-
+import VideoPlayer from '../../../components/videoPlayer/VideoPlayer.jsx'
 
 const DetailsBanner = ({video, crew}) => {
     const {mediaType,id}= useParams()
-    const {data,loading} = useFetch(`/getdetails/${mediaType}/${id}/`)
+    const {data,loading} = useFetch(`/getdetails/${id}/`)
     const {languages} = useSelector((state)=>(state.home))
+    const [show,setShow]=useState(false)
+    const [videoId,setVideoId]=useState(null)
+
 
   return (
-    <div className="w-full h-full bg-[#0c1b31]  py-[100px]    md:pt-[120px] md:min-h-[700px]">
+    <div className="w-full h-full   py-[100px]    md:pt-[120px] md:min-h-[700px]">
         {!loading ? (
             <>
                 {!!data && (
@@ -31,7 +34,7 @@ const DetailsBanner = ({video, crew}) => {
                             <div className="w-full h-[250px] absolute bottom-0 left-0" style={{ background: "linear-gradient(180deg, rgba(4, 21, 45, 0) 0%, #0c1b31 79.17%)" }}></div>
 
                             <ContentWrapper classname="mx-auto">
-                                     <div className="flex relative flex-col gap-[25px] md:gap-[50px] md:flex-row">
+                                     <div className="flex relative h-full  flex-col gap-[25px] md:gap-[50px] md:flex-row">
                                         <div className="flex-shrink-0 ">
                                             <Img classname="w-full block rounded-[12px] md:max-w-[350px] aspect-[139/207] h-full    object-fill object-center"  src={data?.moviedata?.poster}/>
                                                 
@@ -46,15 +49,23 @@ const DetailsBanner = ({video, crew}) => {
                                             <Genres data={data?.moviedata?.genres}/>
                                             
                                             <div className="row ">
-                                                <div className="max-w-[60px]  p-2 md:max-w-[70px] ">
-                                                    <CircleRating  rating={data?.moviedata?.rating}/>
-                                                </div>
+                                                
+                                            
+                                                    <div className="flex gap-5 mt-5 items-center">
+                                                        <div className='max-w-[60px] max-h-[60px] '><CircleRating rating={data?.moviedata?.rating}/></div> 
+                                                        
 
-                                                <div className="playbtn ">
-                                                            <PlayIcon />
-                                                            <span className="text">Watch Trailer</span>
-                                                            
-                                                </div>
+                                                        <span className="playbtn w-[75%]" onClick={()=>{
+                                                            setShow(true)
+                                                            setVideoId(data?.moviedata?.youtubeID)
+                                                        }}>
+                                                                    <PlayIcon />
+                                                                    <span className="text">Watch Trailer</span>
+                                                                    
+                                                        </span>
+                                                    </div>
+                                                
+                                            
                                                 <div className="flex Salsa py-5  gap-5 ">
                                                             {data?.moviedata?.languages?.map((item)=>{
                                                                 return (<div className="opacity-[0.5]" key={item}>{languages[item]?.name}</div>)
@@ -100,6 +111,7 @@ const DetailsBanner = ({video, crew}) => {
                                         </div>
                                         
                                      </div>
+                                     <VideoPlayer show={show} setShow={setShow} videoId={videoId} setVideoId={setVideoId} />
                                      
                                 </ContentWrapper>
                                 

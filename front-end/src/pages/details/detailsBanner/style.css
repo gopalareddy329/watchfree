@@ -20,43 +20,43 @@
     cursor: pointer;
 }
 
-svg {
-        width: 60px;
+.playbtn svg {
+        width: 40px;
     }
-.text {
+.playbtn .text {
         font-size: 20px;
         transition: all 0.7s ease-in-out;
     }
-.triangle {
+.playbtn .triangle {
         stroke-dasharray: 240;
         stroke-dashoffset: 480;
         stroke: white;
         transform: translateY(0);
         transition: all 0.7s ease-in-out;
     }
-.circle {
+.playbtn .circle {
         stroke: white;
         stroke-dasharray: 650;
         stroke-dashoffset: 1300;
         transition: all 0.5s ease-in-out;
     }
-.text:hover{
+.playbtn .text:hover{
             color: #da2f68;
         }
 
-.triangle:hover {
+.playbtn .triangle:hover {
             stroke-dashoffset: 0;
             opacity: 1;
             stroke: #da2f68;
             animation: trailorPlay 0.7s ease-in-out;
         }
-.circle:hover {
+.playbtn .circle:hover {
             stroke-dashoffset: 0;
             stroke: #da2f68;
         }
  
 @media screen and (min-width: 400px) {
-    svg{
-        width: 80px;
+    .playbtn svg{
+        width: 60px;
     }
 }

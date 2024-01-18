@@ -16,7 +16,7 @@ const App = () => {
 
   const {type,languages} = useSelector((state)=>(state.home))
 
-  var {data:genresData,error,loading} = useFetch(`/getgenres/${type}`)
+  var {data:genresData,error,loading} = useFetch(`/getgenres/`)
   var {data:languagedata,error,loading} = useFetch(`/getlanguages/`)
   
   

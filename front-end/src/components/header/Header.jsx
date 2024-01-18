@@ -81,7 +81,7 @@ const Header = () => {
               <div className={` max-md:z-[-1]   md:w-[30%] left-0 p-5   max-md:absolute md:hidden max-md:h-[200px] transform translate-y-0  transition-all ease-in-out duration-200  w-full  ${mobileMenu ? "max-md:bg-[#020c1b] translate-y-0":"translate-y-[-120px]"}`} />
                 <div className='flex h-full justify-between w-full  relative'>
                       <div>
-                        <h1 className='font-[700px] text-[20px] p-5'>WATCHFREE</h1>
+                        <h1 className='font-[700px] text-[20px] p-5 cursor-pointer' onClick={()=>{navigate("/");}}>WATCHFREE</h1>
                         
                       </div>
                      

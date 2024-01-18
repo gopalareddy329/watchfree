@@ -27,7 +27,6 @@ const CardSlider = ({data,loading }) => {
         const scrollAmount = e === "left"
         ? container.scrollLeft - (container.offsetWidth + 20)
         : container.scrollLeft + (container.offsetWidth + 20);
-        console.log(scrollAmount)
         container.scrollTo({
             left:scrollAmount,
             behavior:"smooth"
