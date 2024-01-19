@@ -72,3 +72,11 @@ def GetLanguages(request):
     serial=GenresSeriallizer(data,many=True)
     
     return Response(serial.data)
+
+
+@api_view(["GET"])
+def GetSearchResults(request,query):
+    data=MoviesList.objects.filter(title__icontain = query)
+    serial=MovieItemSerializer(data,many=False)
+    
+    return Response(serial.data)

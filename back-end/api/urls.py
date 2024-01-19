@@ -8,4 +8,5 @@ urlpatterns = [
     path('getherobanner/<str:type>/',views.GetHeroBanner),
     path('getgenres/',views.GetGenres),
     path('getlanguages/',views.GetLanguages),
+    path('getlanguages/<str:query>/',views.GetSearchResults),
 ]
