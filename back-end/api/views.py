@@ -75,8 +75,10 @@ def GetLanguages(request):
 
 
 @api_view(["GET"])
-def GetSearchResults(request,query):
-    data=MoviesList.objects.filter(title__icontain = query)
-    serial=MovieItemSerializer(data,many=False)
+def GetSearchResults(request):
+    query=request.GET.get("query","")
+    page=request.GET.get("page","")
+    data=MoviesList.objects.filter(title__icontains = query)
+    serial=MovieItemSerializer(data,many=True)
     
     return Response(serial.data)
