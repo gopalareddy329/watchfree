@@ -32,7 +32,7 @@ const Header = () => {
         setShow("translate-y-[-60px]")
         
       }else{
-        setShow("bg-[#020c1b]")
+        setShow("bg-[var(--color-primary)]")
       }
     }
     else{
@@ -74,11 +74,11 @@ const Header = () => {
   }
 
   return (
-    <header className={`fixed text-white transform  transition-all ease-in-out duration-500  w-full h-[60px] z-50  flex justify-center  items-center    ${mobileMenu ? "max-md:bg-[#020c1b]":""} ${show}`}>
+    <header className={`fixed text-white transform  transition-all ease-in-out duration-500  w-full h-[60px] z-50  flex justify-center  items-center    ${mobileMenu ? "max-md:bg-[var(--color-primary)]":""} ${show}`}>
         
             
               <ContantWrapper>
-              <div className={` max-md:z-[-1]   md:w-[30%] left-0 p-5   max-md:absolute md:hidden max-md:h-[200px] transform translate-y-0  transition-all ease-in-out duration-200  w-full  ${mobileMenu ? "max-md:bg-[#020c1b] translate-y-0":"translate-y-[-120px]"}`} />
+              <div className={` max-md:z-[-1]   md:w-[30%] left-0 p-5   max-md:absolute md:hidden max-md:h-[200px] transform translate-y-0  transition-all ease-in-out duration-200  w-full  ${mobileMenu ? "max-md:bg-[var(--color-primary)] translate-y-0":"translate-y-[-120px]"}`} />
                 <div className='flex h-full justify-between w-full  relative'>
                       <div>
                         <h1 className='font-[700px] text-[20px] p-5 cursor-pointer' onClick={()=>{navigate("/");}}>WATCHFREE</h1>

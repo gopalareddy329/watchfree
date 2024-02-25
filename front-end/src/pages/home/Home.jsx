@@ -6,7 +6,7 @@ import MostFavorite from './mostFavorite/MostFavorite'
 import ContentChange from '../../components/contentChange/ContentChange'
 const Home = () => {
   return (
-    <div className='min-h-fit mb-10 pb-10 bg-[#0c1b31]'>
+    <div className='min-h-fit mb-10 pb-10 '>
         <HeroBanner />
         <ContentChange />
         <TopAiring />

@@ -5,6 +5,9 @@ from .serializer import MovieItemSerializer,HeroBannerSerializer,GenresSerialliz
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import MoviesList,HeroBanner,Genres,Languages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
+
 # Create your views here.
 
 
@@ -20,7 +23,7 @@ def GetDataList(request,type,order):
         
 
     
-    data=MoviesList.objects.filter(mediatype=type)[:20]
+    data=MoviesList.objects.filter(mediatype=type)[:10]
         
     
     if setOrder:
@@ -52,17 +55,23 @@ def GetDetails(request,id):
 
 
 @api_view(["GET"])
-def GetHeroBanner(request,type):
+def GetHeroBanner(request,types):
     number=random.randint(0,4)
-    data=HeroBanner.objects.filter(movie__mediatype=type)[number]
+    data=HeroBanner.objects.filter(movie__mediatype=types)[number]
+    print(data)
     serial=HeroBannerSerializer(data,many=False)
     return Response(serial.data)
 
 
 @api_view(["GET"])
 def GetGenres(request):
+    cache_key = f"genres_list"
+    cached_data = cache.get(cache_key)
+    if cached_data:
+        return Response(cached_data)
     data=Genres.objects.all()
     serial=GenresSeriallizer(data,many=True)
+    cache.set(cache_key, serial.data, timeout=60) 
     return Response(serial.data)
 
 
@@ -79,6 +88,23 @@ def GetSearchResults(request):
     query=request.GET.get("query","")
     page=request.GET.get("page","")
     data=MoviesList.objects.filter(title__icontains = query)
-    serial=MovieItemSerializer(data,many=True)
+    paginator=Paginator(data,5)
+
+    try:
+        current_page = paginator.page(page)
+    except PageNotAnInteger:
+        current_page = paginator.page(1)
+    except EmptyPage:
+        return Response({"error":"Page Not Found"},status=404)
     
-    return Response(serial.data)
+    serial=MovieItemSerializer(current_page,many=True)
+    
+    response_data = {
+        'results': serial.data,
+        'count': paginator.count,
+        'num_pages': paginator.num_pages,
+        'current_page': current_page.number,
+    }
+
+    
+    return Response(response_data)

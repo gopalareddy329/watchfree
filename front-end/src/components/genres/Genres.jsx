@@ -6,7 +6,7 @@ const Genres = ({data}) => {
   return (
     <div className='flex gap-[5px] '>{data?.map((item)=>{
         return(
-            <div key={item} className='bg-[#da2f68] py-[3px] px-[5px] text-[12px] rounded-[4px] text-white whitespace-nowrap'>{genres[item]?.name}</div>
+            <div key={item} className='bg-[--color-third] py-[3px] px-[5px] text-[12px] rounded-[4px] text-white whitespace-nowrap'>{genres[item]?.name}</div>
         )
     })}</div>
   )

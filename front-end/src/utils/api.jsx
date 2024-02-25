@@ -7,7 +7,7 @@ export const FetchMovieData = async (signal,url) =>{
     
     try {
         
-        const response = await fetch(url,{ signal }) // assuming data.json is in the public folder
+        const response = await fetch(url,{ if(signal){signal} }) // assuming data.json is in the public folder
         const data = await response.json()
        
         return data
