@@ -87,7 +87,7 @@ class LightGCN(tf.keras.Model):
         topk_scores = pd.DataFrame(
             {
                 "user_id": np.repeat(users, top_items.shape[1]),
-                "book_name": top_items.flatten(),
+                "movie_id": top_items.flatten(),
                 "prediction": top_scores.flatten(),
             }
         )
