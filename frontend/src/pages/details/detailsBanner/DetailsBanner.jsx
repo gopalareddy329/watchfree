@@ -49,7 +49,7 @@ const DetailsBanner = ({video, crew}) => {
                                                 
                                             
                                                     <div className="flex gap-5 mt-5 items-center">
-                                                        <div className='max-w-[100px] max-h-[60px] flex items-end gap-2'><CircleRating rating={data?.moviedata?.rating}/><span className="text-gray-400">({data?.moviedata?.rating_count})</span></div> 
+                                                        <div className='max-w-[120px] max-h-[60px] flex items-end gap-2'><CircleRating rating={data?.moviedata?.rating}/><span className="text-gray-400">({data?.moviedata?.rating_count})</span></div> 
                                                         
 
                                                         <span className="playbtn w-[75%]" onClick={()=>{
@@ -66,7 +66,11 @@ const DetailsBanner = ({video, crew}) => {
                                                 
 
                                                 <div>
-                                                    {user && (<RatingInput authToken={authToken} movieId={id}/>)}
+                                                    {user && (
+                                                    <div className="leading-[2rem]">
+                                                        <h5>Your Rating:- </h5>
+                                                        <RatingInput authToken={authToken} movieId={id}/>
+                                                    </div>)}
                                                 </div>
                                                 
 

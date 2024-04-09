@@ -110,8 +110,11 @@ def update_rating(request):
         user=User.objects.get(username=request.user)
         movie=MoviesList.objects.get(movieId=movieId)
         history, created=UserHistory.objects.get_or_create(movie=movie,user=user)
-        if created:
-            
+
+        if not rating:
+            return  Response({"value":history.rating})
+        
+        if history.rating is None:
             movie.rating=((movie.rating * movie.rating_count) + int(rating)) / (movie.rating_count+1)
             movie.rating_count=movie.rating_count+1
             movie.save()
@@ -127,7 +130,8 @@ def update_rating(request):
         
         return Response({"result":"updated"})
     except Exception as e:
-        return Response({"error":str(e),"value":history.rating}, status=status.HTTP_400_BAD_REQUEST)
+        print(e)
+        return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

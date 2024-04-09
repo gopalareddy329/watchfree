@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Rating } from "primereact/rating";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -11,7 +11,7 @@ export default function RatingInput({authToken,movieId}) {
 
     const handleRating = async(e)=>{
         setLoading(true)
-        setValue(e.value)
+     
         try{
             const res=await fetch(ApiBase+"/update_rating/",{
                 method:"POST",
@@ -22,8 +22,12 @@ export default function RatingInput({authToken,movieId}) {
                 body:JSON.stringify({'movieId':movieId,'rating':e.value})
             })
             const response=await res.json()
-            if(res.ok){
+            if(response.value){
+                setValue(response.value)
+            }
+            else if(res.ok && e.value!==null){
                 setMessage("Thanks for the rating...")
+                setValue(e.value)
             }
             else{
                 throw response
@@ -32,11 +36,14 @@ export default function RatingInput({authToken,movieId}) {
         }
         catch(err){
             setMessage(err.error)
-            setValue(err.value)
+            
         }
         setLoading(false)
 
     }
+    useEffect(()=>{
+        handleRating({"value":null})
+    },[])
 
     return (
         <div className="card flex items-center gap-5">
