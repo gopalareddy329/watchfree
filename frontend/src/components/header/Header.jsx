@@ -1,10 +1,11 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useContext } from 'react'
 import {HiOutlineSearch} from "react-icons/hi"
 import {SlMenu} from "react-icons/sl"
 import {VscChromeClose} from "react-icons/vsc"
 import ContantWrapper from "../contentWrapper/ContentWrapper"
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import AuthContext from '../../context/AuthContext'
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Header = () => {
   const [mobileMenu,setMobileMenu] = useState(false)
   const [query,setQuery] = useState("")
   const [showSearch,setShowSearch] = useState("");
+  const {user,logoutUser}=useContext(AuthContext)
 
   
   const serachQueryHandler = (e) => {
@@ -87,8 +89,9 @@ const Header = () => {
                      
                       
                       <ul className={`flex gap-10 top-5 p-5 max-md:absolute md:justify-between   max-md:flex-col max-md:justify-center max-md:mt-[5%] ${mobileMenu ? "block ":"max-md:hidden"}`}>
-                        <li className="hover"><Link  to="explore/movies"  onClick={()=>{setMobileMenu(false)}}>Movies</Link></li>
-                        <li className="hover"><Link  to="/auth" onClick={()=>{setMobileMenu(false)}}>Login</Link></li>
+                        <li className="hover-button"><Link  to="explore/movies"  onClick={()=>{setMobileMenu(false)}}>Movies</Link></li>
+                        {user ? (<li className="relative" onClick={logoutUser}><p className=''>{user.username}</p><p className='absolute text-gray-500 h-[40px] w-full  top-[-20px]   text-center  inset-0 z-10 opacity-0 hover:opacity-100 '>Logout</p></li>):(<li className="hover-button"><Link  to="/auth/login" onClick={()=>{setMobileMenu(false)}}>Login</Link></li>)}
+                        
                         <li className="text-[20px] max-md:hidden "><HiOutlineSearch onClick={openSearch}/></li>
                       </ul>
                       

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { FetchMovieData } from '../utils/api';
+import { ApiBase } from "../utils/base_api";
 
-
-const baseUrl = 'http://127.0.0.1:8000/api';
+const baseUrl = ApiBase;
 
 const useFetch = (url) => {
   const [data, setData] = useState([]);

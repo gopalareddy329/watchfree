@@ -2,12 +2,13 @@ import React,{useState} from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const Img = ({ src, classname,noImg }) => {
+const error ="https://user-images.githubusercontent.com/237508/90251955-8b9ace00-de36-11ea-8670-5dc31fc4ba61.png"
+const Img = ({ src, classname,imgLink=error }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const error ="https://user-images.githubusercontent.com/237508/90251955-8b9ace00-de36-11ea-8670-5dc31fc4ba61.png"
     const handleImageLoad = () => {
         setIsLoading(false);
       };
+
 
     return (
         
@@ -30,7 +31,7 @@ const Img = ({ src, classname,noImg }) => {
             alt=""
             onLoad={handleImageLoad}
             effect="blur"
-            onError={(e)=>{e.target.src=error;setIsLoading(false);}}
+            onError={(e)=>{e.target.src=imgLink;setIsLoading(false);}}
            
             src={src}
             

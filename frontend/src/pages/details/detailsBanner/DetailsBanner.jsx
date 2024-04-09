@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-
 import "./style.css";
-
+import RatingInput from "../../../components/rating/ratingInput/RatingInput.jsx";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import useFetch from "../../../hooks/useFetch";
 import Genres from "../../../components/genres/Genres";
@@ -12,14 +10,14 @@ import CircleRating from "../../../components/rating/Rating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
 import {PlayIcon} from '../PlayButton.jsx' 
 import VideoPlayer from '../../../components/videoPlayer/VideoPlayer.jsx'
-
+import AuthContext from '../../../context/AuthContext.jsx'
 const DetailsBanner = ({video, crew}) => {
-    const {mediaType,id}= useParams()
+
+    const {user,authToken} = useContext(AuthContext)
+    const {id}= useParams()
     const {data,loading} = useFetch(`/getdetails/${id}/`)
-    const {languages} = useSelector((state)=>(state.home))
     const [show,setShow]=useState(false)
     const [videoId,setVideoId]=useState(null)
-
 
 
   return (
@@ -29,7 +27,7 @@ const DetailsBanner = ({video, crew}) => {
                 {!!data && (
                     <React.Fragment>
                             <div className="w-full h-full absolute top-0 left-0 opacity-[0.1]">
-                              <Img classname="w-full h-full object-fit object-center " src={`${data.herobanner !=="" ? (data.herobanner) : (data.moviedata.img_link)}`}/>
+                              <Img classname="w-full h-full object-fit object-center "  src={data?.moviedata?.img_link}/>
                             </div>
 
                             <div className="w-full h-[250px] absolute bottom-0 left-0" style={{ background: "linear-gradient(180deg, rgba(4, 21, 45, 0) 0%, #0c1b31 79.17%)" }}></div>
@@ -42,23 +40,21 @@ const DetailsBanner = ({video, crew}) => {
                                         </div>
                                         <div className="text-white">
                                             <div className="text-[28px] leading-[40px] md:text-[34px] md:leading-[44px]">
-                                                {`${data?.moviedata?.title.slice(0,-6)} (${dayjs(data?.moviedata?.title?.slice(-5,-1)).format("YYYY")})`}
+                                                {`${data?.moviedata?.title.slice(0,-6)}`}
                                             </div>
-                                            <div className="text-[16px] Salsa leading-[24px] mb-[15px] italic opacity-[0.5] md:text-[20px] md:leading-[28px]">
-                                                {data?.moviedata?.tagline}
-                                            </div>
+                                            
                                             <Genres data={data?.moviedata?.genres.split("|")}/>
                                             
                                             <div className="row ">
                                                 
                                             
                                                     <div className="flex gap-5 mt-5 items-center">
-                                                        <div className='max-w-[60px] max-h-[60px] '><CircleRating rating={data?.moviedata?.rating}/></div> 
+                                                        <div className='max-w-[100px] max-h-[60px] flex items-end gap-2'><CircleRating rating={data?.moviedata?.rating}/><span className="text-gray-400">({data?.moviedata?.rating_count})</span></div> 
                                                         
 
                                                         <span className="playbtn w-[75%]" onClick={()=>{
                                                             setShow(true)
-                                                            setVideoId(data?.moviedata?.youtubeID)
+                                                            setVideoId(data?.moviedata?.youtubeId)
                                                         }}>
                                                                     <PlayIcon />
                                                                     <span className="text">Watch Trailer</span>
@@ -67,23 +63,14 @@ const DetailsBanner = ({video, crew}) => {
                                                     </div>
                                                 
                                             
-                                                <div className="flex Salsa py-5  gap-5 ">
-                                                            {data?.moviedata?.languages?.map((item)=>{
-                                                                return (<div className="opacity-[0.5]" key={item}>{languages[item]?.name}</div>)
-                                                            })}
-                                                </div>
-
-
                                                 
 
-                                                <div className="mb-[25px] ">
-                                                        <div className="text-[24px] mb-[10px]">
-                                                            Overview
-                                                        </div>
-                                                        <div className="leading-[24px] Salsa text-[18px] md:pr-">
-                                                            {data?.moviedata?.overview}
-                                                        </div>
+                                                <div>
+                                                    {user && (<RatingInput authToken={authToken} movieId={id}/>)}
                                                 </div>
+                                                
+
+                                                
 
                                                 <div className="flex items-center border-b-[1px]  border-solid border-[rgba(255,255,255,0.1)] py-[15px]  ">
 
@@ -93,15 +80,11 @@ const DetailsBanner = ({video, crew}) => {
                                                     </div>
 
                                                     <div className="mr-[10px] flex items-center flex-wrap">
-                                                        <h2 className="font-[600] opacity-1">Release Date:</h2>
-                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{dayjs(data?.moviedata?.date).format("MMM D, YYYY")}</p>
+                                                        <h2 className="font-[600] opacity-1">Release in &nbsp;</h2>
+                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{dayjs(data?.moviedata?.title?.slice(-5,-1)).format("YYYY")}</p>
                                                     </div>
 
-                                                    <div className="mr-[10px] flex items-center flex-wrap">
-                                                        <h2 className="font-[600] opacity-1">Duration:</h2>
-                                                        <p className="mr-[10px] leading-[24px] Salsa opacity-[0.5]">{data?.moviedata?.duration}</p>
-                                                    </div>
-                                                    
+                                                   
 
                                                 </div>
                                                 

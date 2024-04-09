@@ -27,9 +27,9 @@ const App = () => {
               
               <Routes>
                   <Route path="/" element={<Home />}/>
-                  <Route path="/:id" element={<Details />}/>
+                  <Route path="/details/:id" element={<Details />}/>
                   <Route path="/search/:query" element={<SearchResult />}/>
-                  <Route path="/auth" element={<Authentication />}/>
+                  <Route path="/auth/:page" element={<Authentication />}/>
                   <Route path="*" element={<Home />}/>
               </Routes>
           </AuthProvider>

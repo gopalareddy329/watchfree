@@ -38,7 +38,7 @@ export const AuthProvider = ({children}) =>{
                 navigate('/')
             }
             else{
-                alert('Something went wrong!')
+                alert('credentials are wrong!')
             }
             
         }catch(err){
@@ -49,7 +49,7 @@ export const AuthProvider = ({children}) =>{
         setAuthToken(null)
         setUser(null)
         localStorage.removeItem('authTokens')
-        navigate("/login")
+        navigate("auth/login")
     }
     const registerUser = async (e) =>{
         e.preventDefault();

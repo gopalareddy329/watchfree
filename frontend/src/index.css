@@ -54,11 +54,11 @@ body{
   background-color: var(--color-secondary);
   
 }
-.hover{
+.hover-button{
   color: white;
 }
 
-.hover:hover{
+.hover-button:hover{
 
   color:#da2f68;
 }

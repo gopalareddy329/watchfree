@@ -23,11 +23,22 @@ class MoviesList(models.Model):
 
     genres=models.TextField(null=True,blank=True)
     rating=models.DecimalField(null=True,blank=True,max_digits=3, decimal_places=2)
-    
+    rating_count=models.IntegerField(default=0)
+    youtubeId=models.TextField(null=True,blank=True)
     def __str__(self):
         return self.title
     
 
+class UserHistory(models.Model):
+    movie=models.ForeignKey(MoviesList,on_delete=models.CASCADE,blank=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    rating=models.DecimalField(null=True,blank=True,max_digits=3, decimal_places=2)
+
+    class Meta:
+        unique_together = ('movie', 'user')
+
+    def __str__(self):
+        return f'{self.user.username} for {self.movie.title}'
 
 
 class HeroBanner(models.Model):

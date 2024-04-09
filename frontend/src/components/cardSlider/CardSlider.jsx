@@ -69,7 +69,7 @@ const CardSlider = ({data,loading }) => {
                         const imgUrl = item.img_link 
                         
                         return(
-                            <div key={item.id} onClick={()=>navigate(`/${item.movieId}`)}  className='w-[125px]   cursor-pointer md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)] flex-shrink-0 '>
+                            <div key={item.id} onClick={()=>navigate(`/details/${item.movieId}`)}  className='w-[125px]   cursor-pointer md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)] flex-shrink-0 '>
                                 <div className='relative  w-full   rounded-[12px]  aspect-[1/1.5] bg-cover bg-center mb-[30px] flex flex-col items-end justify-between ' style={{"boxShadow":"0 4px 8px rgba(0,0,0,0.1)"}}>
                                     
                                         <div className='  w-full h-full rounded-[12px] overflow-hidden'>

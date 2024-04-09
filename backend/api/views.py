@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
-from .models import User,MoviesList,HeroBanner
+from .models import User,MoviesList,UserHistory
 from django.views.decorators.csrf import csrf_exempt
 from .serializer import UserSerializer, MovieItemSerializer,HeroBannerSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -17,11 +17,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
 import pandas as pd
 from fuzzy_match import algorithims
-
-headers = {
-    "accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTkxZWM4ODAyYWI4MTg3YzlkNGY5ZWNkNTM1MWQ2MCIsInN1YiI6IjY1OTNmM2JkNTFhNjRlMDI3MWY1NzIxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ctN1FGf0F2b4-MzDGTfwy0triBXOFtIYso19EGdAJrI"
-}
 
 
 @api_view(['POST'])
@@ -63,16 +58,15 @@ def get_user_details(request):
 
 @api_view(['GET'])
 def GetDataList(request,order):
-    setOrder=None
+    setOrder=20
     if order:
         if order=="TopAiring":
-            setOrder="rating"
+            setOrder=0
         elif order=="popular":
-            setOrder="popularity"
+            setOrder=10
         
-
     
-    data=MoviesList.objects.all()[:10]
+    data=MoviesList.objects.filter(rating_count__gt=10).order_by('-rating')[setOrder:setOrder+10]
         
     
     
@@ -86,10 +80,9 @@ def GetDetails(request,id):
         data = MoviesList.objects.get(movieId=id)
         
         serial=MovieItemSerializer(data,many=False)
-        serial_2=HeroBannerSerializer(data.herobanner_set.first(),many=False)
+    
 
-        return Response({"moviedata":serial.data,
-                     "herobanner":serial_2.data["backdrop"]})
+        return Response({"moviedata":serial.data})
         
     
     
@@ -101,13 +94,40 @@ def GetDetails(request,id):
 def GetHeroBanner(request):
     try:
         number=random.randint(0,4)
-        data=HeroBanner.objects.all()[number]
-        serial=HeroBannerSerializer(data,many=False)
+        data=MoviesList.objects.all()[number]
+        serial=MovieItemSerializer(data,many=False)
         return Response(serial.data)
     except Exception as e:
         return Response({"error":str(e)},status=400)
 
 
+@permission_classes([IsAuthenticated])
+@api_view(["POST"])
+def update_rating(request):
+    try:
+        movieId=request.data.get('movieId')
+        rating=request.data.get('rating')
+        user=User.objects.get(username=request.user)
+        movie=MoviesList.objects.get(movieId=movieId)
+        history, created=UserHistory.objects.get_or_create(movie=movie,user=user)
+        if created:
+            
+            movie.rating=((movie.rating * movie.rating_count) + int(rating)) / (movie.rating_count+1)
+            movie.rating_count=movie.rating_count+1
+            movie.save()
+
+
+        if history.rating is not None:
+            raise Exception("you can't update")
+        
+        if rating is not None: 
+            history.rating=rating
+            history.save()
+            
+        
+        return Response({"result":"updated"})
+    except Exception as e:
+        return Response({"error":str(e),"value":history.rating}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -158,7 +178,9 @@ def GetSearchResults(request):
 
 
 def update_dataset():
-    data = pd.read_csv('/Users/gopalareddy/Desktop/repo/watchfree/backend/ml-latest/image_link.csv')
+    dtype_dict = {'movieId': int,'average_rating':float,'title':str,'genre':str,'imdbId': str, 'tmdbId': str,'image_link':str,'youtubeId':str,'rating_count':int}
+    data = pd.read_csv('//Users/gopalareddy/Desktop/all_python/movierec/new_data.csv',dtype=dtype_dict)
+    MoviesList.objects.all().delete()
     for index, row in data.iterrows():
         print(index)
         try:
@@ -170,6 +192,8 @@ def update_dataset():
             movie.genres=row["genre"]
             movie.rating=row["average_rating"]
             movie.img_link=row["image_link"]
+            movie.youtubeId=row["youtubeId"]
+            movie.rating_count=row["rating_count"]
             movie.save()
         except Exception as e:
             MoviesList.objects.all().delete()

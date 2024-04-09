@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from '../../../hooks/useFetch'
 import Img from '../../../components/lazyLoadImage/Img'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
-import { useSelector } from 'react-redux';
+
 
 
 const HeroBanner = () => {
   const [backGround,setBackGround] = useState("")
-  const {type}=useSelector((state)=>(state.home))
+
   
   const {data,loading,error} = useFetch(`/getherobanner/`)
   if(error){
@@ -17,7 +17,7 @@ const HeroBanner = () => {
   
   useEffect(()=>{
     const url = {
-      backdrop:data?.backdrop,
+      backdrop:`https://img.youtube.com/vi/${data?.youtubeId}/maxresdefault.jpg`,
     };
     const bg = url.backdrop
     
