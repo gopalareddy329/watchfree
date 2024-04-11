@@ -12,9 +12,9 @@ const Footer = () => {
             <ContentWrapper classname="flex w-full mx-auto items-center flex-col">
                 <ul className="flex list-none items-center justify-center gap-[15px] mb-[20px] md:mb-[30px] md:gap-[30px] ">
                     
-                    <li className="menuItem hover">Privacy-Policy</li>
-                    <li className="menuItem hover">About</li>
-                    <li className="menuItem hover">FAQ</li>
+                    <li className="menuItem hover-button">Privacy-Policy</li>
+                    <li className="menuItem hover-button">About</li>
+                    <li className="menuItem hover-button">FAQ</li>
                 </ul>
                 <div className="text-[12px] leading-[20px] opacity-[0.5] text-center max-w-[800px] mb-[20px] md:text-[14px] md:mb-[30px]">
                 Welcome to our WatchFree movie streaming platform! 
@@ -22,13 +22,13 @@ const Footer = () => {
                 TV shows across various genres.
                 </div>
                 <div className="flex itmes-center justify-center gap-[10px] ">
-                    <span className="social-icons hover">
+                    <span className="social-icons hover-button">
                         <FaFacebookF />
                     </span>
-                    <span className="social-icons hover">
+                    <span className="social-icons hover-button">
                         <FaInstagram />
                     </span>
-                    <span className="social-icons hover">
+                    <span className="social-icons hover-button">
                         <FaLinkedin />
                     </span>
                 </div>

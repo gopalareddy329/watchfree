@@ -121,7 +121,8 @@ def update_rating(request):
 
 
         if history.rating is not None:
-            raise Exception("you can't update")
+            return Response({"error":"you can't update"}, status=status.HTTP_403_FORBIDDEN)
+
         
         if rating is not None: 
             history.rating=rating
