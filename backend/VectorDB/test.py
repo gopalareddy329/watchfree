@@ -1,6 +1,6 @@
 import pandas as pd 
 
-data = pd.read_csv("data/movies_metadata.csv") 
+data = pd.read_csv("../data/movies_metadata.csv") 
 
 col = data.columns.values
 print(col)

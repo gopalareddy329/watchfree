@@ -32,7 +32,7 @@ dtype_mapping = {
     'vote_count': float
 }
 
-df = pd.read_csv("data/movies_metadata.csv", dtype=dtype_mapping)
+df = pd.read_csv("/data/movies_metadata.csv", dtype=dtype_mapping)
 df = df.dropna(subset=["overview"])
 vectors = model.encode(
     [row.overview for row in df.itertuples()],

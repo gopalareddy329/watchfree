@@ -36,7 +36,7 @@ dtype_mapping = {
     'vote_average': float,
     'vote_count': float
 }
-df = pd.read_csv("data/movies_metadata.csv", dtype=dtype_mapping)
+df = pd.read_csv("movies_metadata.csv", dtype=dtype_mapping)
 df = df.dropna(subset=["overview"])
 
 ids = df.id.values
@@ -84,7 +84,8 @@ with tqdm(total=len(df)) as pbar:
                 collection_name="Movie_Overview_EN",
                 points=models.Batch(
                     ids=[int(row["id"])],
-                    vectors=[vector.tolist()]
+                    vectors=[vector.tolist()] , 
+                    # payloads=payload
                 )
             )
         except : 
