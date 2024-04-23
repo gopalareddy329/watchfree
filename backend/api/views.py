@@ -17,7 +17,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
 import pandas as pd
 from fuzzy_match import algorithims
+from .content_recommender import RecommenderWithCache
+from django.db.models import Q
 
+recommender = RecommenderWithCache()
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -212,3 +215,24 @@ def GetMovie(request):
 
     update_dataset()
     return Response({"got":"HI"})
+
+@api_view(["GET"])
+def recommend_movie(request) :
+    user_id = 2
+    user_history = UserHistory.objects.filter(user_id=user_id, rating__gt=3.5)[:3]
+    if user_history : 
+        ids =  []
+        for movie in user_history:
+            ids.extend(recommender.recommend(movie_id=movie.movieId , movie_overview= movie.Overview))
+    response = [] 
+    for id in ids : 
+        try : 
+            movie = MoviesList.objects.get(movieId=id)
+            response.append(movie)
+        except : 
+            pass 
+        
+    serial = MovieItemSerializer(response , many=True) 
+    return Response({"result":serial.data})
+
+    
