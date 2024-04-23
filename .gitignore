@@ -25,12 +25,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-<<<<<<< HEAD
 
 
 *.dat
 *-checkpoint.*
-=======
 venv
 ml-latest
->>>>>>> 9f54be3 (ui-updates)
+
+*.sst
+backend/qdrant_storage
+backend/data/movies_metadata.json
+backend/startups_demo.json
