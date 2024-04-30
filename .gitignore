@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-migrations
+
 __pycache__
 env
 node_modules
@@ -36,3 +36,4 @@ ml-latest
 backend/qdrant_storage
 backend/data/movies_metadata.json
 backend/startups_demo.json
+qdrant_storage

@@ -17,7 +17,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
 import pandas as pd
 from fuzzy_match import algorithims
-from .content_recommender import RecommenderWithCache
+from .Recommenders.content_recommender import RecommenderWithCache
 from django.db.models import Q
 
 recommender = RecommenderWithCache()
@@ -96,7 +96,7 @@ def GetDetails(request,id):
 @api_view(["GET"])
 def GetHeroBanner(request):
     try:
-        number=random.randint(0,4)
+        number=random.randint(0,3)
         data=MoviesList.objects.all()[number]
         serial=MovieItemSerializer(data,many=False)
         return Response(serial.data)
@@ -117,6 +117,8 @@ def update_rating(request):
         if not rating:
             return  Response({"value":history.rating})
         
+            
+        
         if history.rating is None:
             movie.rating=((movie.rating * movie.rating_count) + int(rating)) / (movie.rating_count+1)
             movie.rating_count=movie.rating_count+1
@@ -124,17 +126,18 @@ def update_rating(request):
 
 
         if history.rating is not None:
-            return Response({"error":"you can't update"}, status=status.HTTP_403_FORBIDDEN)
+            value=((movie.rating * movie.rating_count) - int(history.rating)) 
+            movie.rating=((max(0,value)) + int(rating)) / (movie.rating_count)
+            movie.save()
 
-        
-        if rating is not None: 
-            history.rating=rating
-            history.save()
+
+
+        history.rating=rating
+        history.save()
             
         
         return Response({"result":"updated"})
     except Exception as e:
-        print(e)
         return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -186,9 +189,10 @@ def GetSearchResults(request):
 
 
 def update_dataset():
-    dtype_dict = {'movieId': int,'average_rating':float,'title':str,'genre':str,'imdbId': str, 'tmdbId': str,'image_link':str,'youtubeId':str,'rating_count':int}
-    data = pd.read_csv('//Users/gopalareddy/Desktop/all_python/movierec/new_data.csv',dtype=dtype_dict)
-    MoviesList.objects.all().delete()
+    dtype_dict = {'movieId': int,'average_rating':float,'title':str,'genre':str,'imdbId': float, 'tmdbId': str,'image_link':str,'youtubeId':str,'rating_count':int,'overview':str}
+    data = pd.read_csv('/Users/gopalareddy/Desktop/repo/all_python/movierec/movie_overview.csv',dtype=dtype_dict)
+    data = data.dropna(subset=['imdbId'],axis=0)
+    data['imdbId'] = data['imdbId'].astype(int)
     for index, row in data.iterrows():
         print(index)
         try:
@@ -196,12 +200,13 @@ def update_dataset():
             movie.title=row["title"]
             movie.movieId=row["movieId"]
             movie.tmdbId=row["tmdbId"]
-            movie.imdbId=row["imdbId"]
+            movie.imdbId=int(row["imdbId"])
             movie.genres=row["genre"]
             movie.rating=row["average_rating"]
             movie.img_link=row["image_link"]
             movie.youtubeId=row["youtubeId"]
             movie.rating_count=row["rating_count"]
+            movie.movieOverview=row["overview"]
             movie.save()
         except Exception as e:
             MoviesList.objects.all().delete()
@@ -212,27 +217,42 @@ def update_dataset():
 
 @api_view(["GET"])
 def GetMovie(request):
+    MoviesList.objects.all().delete()
 
     update_dataset()
     return Response({"got":"HI"})
 
+
+
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def recommend_movie(request) :
-    user_id = 2
-    user_history = UserHistory.objects.filter(user_id=user_id, rating__gt=3.5)[:3]
-    if user_history : 
+    user = request.user
+    print(user)
+
+    user_history = UserHistory.objects.filter(user__id=user.id, rating__gt=3.5)[:3]
+    print(user_history)
+    if user_history is not None: 
+        added_ids = set()
         ids =  []
         for movie in user_history:
-            ids.extend(recommender.recommend(movie_id=movie.movieId , movie_overview= movie.Overview))
-    response = [] 
-    for id in ids : 
-        try : 
-            movie = MoviesList.objects.get(movieId=id)
-            response.append(movie)
-        except : 
-            pass 
+            print(movie.movie.imdbId)
+            added_ids.add(movie.movie.imdbId)
+            ids.extend(recommender.recommend(movie_id=movie.movie.imdbId , movie_overview= movie.movie.movieOverview))
+        response = []
         
-    serial = MovieItemSerializer(response , many=True) 
-    return Response({"result":serial.data})
+
+        for id in ids:
+            try:
+                movie = MoviesList.objects.get(imdbId=id)
+                if movie.imdbId not in added_ids:  # Check if IMDb ID is already in the set
+                    response.append(movie)
+                    added_ids.add(movie.imdbId)  # Add IMDb ID to the set to mark it as added
+            except MoviesList.DoesNotExist:
+                pass
+            
+        serial = MovieItemSerializer(response , many=True) 
+        return Response(serial.data)
+    return Response({"noData":"no data"}) 
 
     

@@ -18,7 +18,7 @@ class MoviesList(models.Model):
 
     movieId=models.TextField(null=True,blank=True,unique=True)
     tmdbId=models.TextField(null=True,blank=True)
-    imdbId=models.TextField(null=True,blank=True)
+    imdbId=models.IntegerField(null=True,blank=True)
     img_link=models.TextField(null=True,blank=True)
 
     genres=models.TextField(null=True,blank=True)

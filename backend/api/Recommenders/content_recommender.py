@@ -6,7 +6,7 @@ import time
 
 class Recommender : 
     def __init__(self ):
-        model = SentenceTransformer("all-MiniLM-L6-v2", device="cuda")
+        model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
         self.client = client = QdrantClient("http://localhost:6333")
         self.model = model
         self.cache = {} 
@@ -22,9 +22,11 @@ class Recommender :
         ids = [data.id for data in recommendations if data.id!=movie_id ]
         return ids[:10]
     
+
+    
 class RecommenderWithCache:
     def __init__(self):
-        self.model = SentenceTransformer("all-MiniLM-L6-v2", device="cuda")
+        self.model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
         self.client = QdrantClient("http://localhost:6333")
         self.cache = {}
         self.collection_name = "Movie_Overview_EN"
@@ -55,7 +57,7 @@ class RecommenderWithCache:
             with_payload=True,
             limit=11
         )
-
+        # print(recommendations)
         ids = [data.id for data in recommendations if data.id != movie_id]
         result = ids[:10]
 

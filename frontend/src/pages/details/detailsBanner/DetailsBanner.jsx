@@ -61,6 +61,10 @@ const DetailsBanner = ({video, crew}) => {
                                                                     
                                                         </span>
                                                     </div>
+                                                    <div className="my-10 font-[400] ">
+                                                        <h2>Overview :</h2>
+                                                        <p className="font-[400] Salsa my-2">{data?.moviedata?.movieOverview}</p>
+                                                    </div>
                                                 
                                             
                                                 

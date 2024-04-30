@@ -1,5 +1,5 @@
 import {useState,useEffect} from 'react'
-import {API_BASE} from '../utlis/api'
+import {ApiBase} from '../utils/base_api'
 
 const AuthFetch = (authToken,url) => {
     const [data,setData]=useState([])
@@ -11,7 +11,7 @@ const AuthFetch = (authToken,url) => {
         const signal = abortController.signal;
         const fetchData = async() =>{
         try{
-            const res = await fetch(API_BASE+url, {
+            const res = await fetch(ApiBase+url, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer `+String(authToken.access),

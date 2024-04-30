@@ -20,6 +20,6 @@ urlpatterns = [
     path('getherobanner/',views.GetHeroBanner),
     path('searchdata/',views.GetSearchResults),
     path('update_rating/',views.update_rating),
-    path('getmovie/',views.GetMovie),
+    #path('getmovie/',views.GetMovie),
     path('get_recommendation/',views.recommend_movie),
 ]
